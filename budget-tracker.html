@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget & Expense Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Road Trip Planner</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="trip-planner.html">Trip Planner</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="budget-tracker.html">Budget Tracker</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>  <div class="tracker-container">
+    <h2 class="text-center mb-4">Budget & Expense Tracker</h2>
+    <form id="expense-form">
+      <div class="row">
+        <div class="col-md-4">
+          <input type="text" id="expense-name" class="form-control" placeholder="Expense Name" required />
+        </div>
+        <div class="col-md-4">
+          <input type="number" id="expense-amount" class="form-control" placeholder="Amount (USD)" required />
+        </div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-primary w-100">Add Expense</button>
+        </div>
+      </div>
+    </form><hr />
+
+<h4>Total Spent: $<span id="total-spent">0</span></h4>
+<table class="table table-bordered table-hover mt-3">
+  <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Expense Name</th>
+      <th>Amount (USD)</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="expense-list"></tbody>
+</table>
+
+  </div>  <script>
+    const form = document.getElementById('expense-form');
+    const expenseList = document.getElementById('expense-list');
+    const totalSpent = document.getElementById('total-spent');
+    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+
+    function renderExpenses() {
+      expenseList.innerHTML = '';
+      let total = 0;
+      expenses.forEach((expense, index) => {
+        total += Number(expense.amount);
+        const row = `<tr>
+          <td>${index + 1}</td>
+          <td>${expense.name}</td>
+          <td>$${expense.amount}</td>
+          <td><button class="btn btn-sm btn-danger" onclick="deleteExpense(${index})">Delete</button></td>
+        </tr>`;
+        expenseList.insertAdjacentHTML('beforeend', row);
+      });
+      totalSpent.textContent = total;
+    }
+
+    function deleteExpense(index) {
+      expenses.splice(index, 1);
+      localStorage.setItem('expenses', JSON.stringify(expenses));
+      renderExpenses();
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('expense-name').value;
+      const amount = document.getElementById('expense-amount').value;
+      if (name && amount) {
+        expenses.push({ name, amount });
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+        form.reset();
+        renderExpenses();
+      }
+    });
+
+    renderExpenses();
+  </script>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body>
+</html>
