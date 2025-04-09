@@ -73,3 +73,46 @@ var map = L.map('map').setView([37.7749, -122.4194], 10);
             }
         });
     });
+    
+    
+    
+    const form = document.getElementById('expense-form');
+    const expenseList = document.getElementById('expense-list');
+    const totalSpent = document.getElementById('total-spent');
+    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+
+    function renderExpenses() {
+      expenseList.innerHTML = '';
+      let total = 0;
+      expenses.forEach((expense, index) => {
+        total += Number(expense.amount);
+        const row = `<tr>
+          <td>${index + 1}</td>
+          <td>${expense.name}</td>
+          <td>$${expense.amount}</td>
+          <td><button class="btn btn-sm btn-danger" onclick="deleteExpense(${index})">Delete</button></td>
+        </tr>`;
+        expenseList.insertAdjacentHTML('beforeend', row);
+      });
+      totalSpent.textContent = total;
+    }
+
+    function deleteExpense(index) {
+      expenses.splice(index, 1);
+      localStorage.setItem('expenses', JSON.stringify(expenses));
+      renderExpenses();
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('expense-name').value;
+      const amount = document.getElementById('expense-amount').value;
+      if (name && amount) {
+        expenses.push({ name, amount });
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+        form.reset();
+        renderExpenses();
+      }
+    });
+
+    renderExpenses();
