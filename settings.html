@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Goal Tracker - Settings</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-container">
+      <h1>Settings</h1>
+      <nav>
+        <button class="back-btn" onclick="window.location.href='home.html'">&larr; Dashboard</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container settings-page">
+    <section class="settings-section">
+      <h2>Appearance</h2>
+      <div class="setting-item">
+        <label for="themeToggle">Dark Mode:</label>
+        <input type="checkbox" id="themeToggle" />
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h2>Data Management</h2>
+      <div class="setting-item">
+        <p>This will erase all stored goals.</p>
+        <button id="resetBtn" class="action-btn reset-btn">Reset Goals</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Goal Tracker. All rights reserved.</p>
+    </div>
+  </footer>
+
+ <script src="script.js"></script>
+</body>
+</html>
